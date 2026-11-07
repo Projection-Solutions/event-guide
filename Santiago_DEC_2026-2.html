@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New 4E Training Schedule - University (Dec 2026)</title>
+<style>
+  @page {
+    size: landscape;
+    margin: 0.25in;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10px;
+    color: #222;
+    margin: 10px;
+    background-color: #fff;
+  }
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 16px;
+    margin: 0;
+    color: #1a365d;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .toolbar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    background-color: #2b6cb0;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn:hover {
+    background-color: #1a365d;
+  }
+  .btn-secondary {
+    background-color: #4a5568;
+  }
+  .btn-secondary:hover {
+    background-color: #2d3748;
+  }
+  .btn-success {
+    background-color: #2f855a;
+  }
+  .btn-success:hover {
+    background-color: #22543d;
+  }
+  .btn-danger {
+    background-color: #e53e3e;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 9px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .btn-danger:hover {
+    background-color: #9b2c2c;
+  }
+  .meta-box {
+    background-color: #f7fafc;
+    border: 1px solid #cbd5e0;
+    border-left: 4px solid #2b6cb0;
+    padding: 6px 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+  .meta-box p {
+    margin: 2px 0;
+  }
+  .meta-label {
+    font-weight: 700;
+    color: #1a365d;
+  }
+  table.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  table.schedule-table th,
+  table.schedule-table td {
+    border: 1px solid #718096;
+    padding: 3px 4px;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  table.schedule-table thead th {
+    background-color: #1a365d;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 10px;
+    padding: 5px 3px;
+  }
+  table.schedule-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  /* Shrunk & balanced column widths to fit landscape cleanly */
+  .col-week { width: 3.5%; text-align: center; }
+  .col-date { width: 5.5%; text-align: center; }
+  .col-time { width: 6.5%; text-align: center; }
+  .col-skills { width: 15%; }
+  .col-instructor { width: 11.5%; }
+  .col-staff { width: 11.5%; }
+  .col-location { width: 6.5%; }
+  .col-room { width: 6.5%; }
+  .col-equipment { width: 12.5%; }
+  .col-class8 { width: 21%; }
+
+  .cell-input-center {
+    width: 100%;
+    border: 1px solid transparent;
+    border-bottom: 1px dashed #cbd5e0;
+    background: transparent;
+    text-align: center;
+    font-family: inherit;
+    font-size: 10px;
+    padding: 2px 1px;
+  }
+  .cell-input-center.week-num {
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .cell-textarea {
+    width: 100%;
+    min-height: 112px;
+    border: 1px solid #e2e8f0;
+    border-radius: 2px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 9.5px;
+    line-height: 1.35;
+    padding: 3px;
+    resize: vertical;
+  }
+  .cell-input-center:focus,
+  .cell-textarea:focus,
+  .text-line:focus,
+  .qty-input:focus,
+  .c8-input:focus {
+    outline: none;
+    border-color: #2b6cb0;
+    background-color: #ebf8ff;
+  }
+  .line-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .line-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .line-num {
+    font-size: 8.5px;
+    color: #4a5568;
+    width: 11px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .text-line {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cbd5e0;
+    background: transparent;
+    font-size: 9.5px;
+    padding: 0 2px;
+    height: 14px;
+    font-family: inherit;
+  }
+  .location-checks {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 2px;
+    font-size: 9.5px;
+    color: #2d3748;
+  }
+  .location-checks label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .location-checks input[type="checkbox"] {
+    margin: 0;
+    width: 12px;
+    height: 12px;
+  }
+  .class8-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+  .class8-subtable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .class8-subtable th {
+    background-color: #edf2f7 !important;
+    color: #2d3748 !important;
+    font-size: 8.5px !important;
+    padding: 1px 2px !important;
+    border: 1px solid #cbd5e0 !important;
+    text-align: center;
+  }
+  .class8-subtable td {
+    padding: 0 1px !important;
+    border: 1px solid #cbd5e0 !important;
+    height: 14px;
+  }
+  .qty-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 9px;
+    text-align: center;
+    padding: 0;
+    height: 13px;
+  }
+  .c8-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 9px;
+    padding: 0 2px;
+    height: 13px;
+  }
+
+  @media print {
+    body {
+      margin: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .cell-textarea {
+      border: none;
+      resize: none;
+      overflow: hidden;
+    }
+    .cell-input-center {
+      border-bottom: none;
+    }
+    tr {
+      page-break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header-bar">
+    <h1>Proposed Refined Training Plan &mdash; 4E Training Schedule</h1>
+    <div class="toolbar no-print">
+      <button class="btn btn-success" onclick="addWeek()">+ Add Week</button>
+      <button class="btn" onclick="exportJSON()">&#128190; Export JSON</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('json-file-input').click()">&#128194; Import JSON</button>
+      <input type="file" id="json-file-input" accept=".json" style="display:none" onchange="importJSON(event)">
+      <button class="btn" onclick="window.print()">&#128424; Print / Save to PDF</button>
+    </div>
+  </div>
+
+  <div class="meta-box" contenteditable="true" title="Click to edit header notes">
+    <p><span class="meta-label">Target:</span> Brand New Enlisted &amp; CNTP nurses (top priority). Training is open to current staff, but student:instructor ratio is 6:1. If we anticipate more than 6 students, another instructor will be added.</p>
+    <p><span class="meta-label">Duration:</span> 11 weeks (2.75 months). These include MEDSURG/PCC (8 weeks) &amp; Trauma ICTLs (3 weeks). This will not change our Unit Orientation (MEDSURG) as this portion is 8 weeks long. Week 9&ndash;11 is trauma/ICTLs sustainment. Skills will be repeated every 15 weeks. Given 4 weeks break in between for makeup and rest.</p>
+    <p><span class="meta-label">Note:</span> We will involve more nursing staff to teach on 2nd rotation and on. This will allow for us to identify more nurses motivated to teach and to train other staff. &nbsp;|&nbsp; <span class="meta-label">Base Location:</span> Sim Center South</p>
+  </div>
+
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th class="col-week">Wk</th>
+        <th class="col-date">Date</th>
+        <th class="col-time">Time</th>
+        <th class="col-skills">Skills</th>
+        <th class="col-instructor">Instructor</th>
+        <th class="col-staff">Assigned Sim Staff<br><span style="font-weight:normal; font-size:8.5px;">(Up to 4)</span></th>
+        <th class="col-location">Location</th>
+        <th class="col-room">Room<br><span style="font-weight:normal; font-size:8.5px;">(Up to 8)</span></th>
+        <th class="col-equipment">Equipment<br><span style="font-weight:normal; font-size:8.5px;">(Up to 8)</span></th>
+        <th class="col-class8">Class VIII<br><span style="font-weight:normal; font-size:8.5px;">(2 Parallel of 6 &mdash; Total 12: Qty &amp; Class 8)</span></th>
+      </tr>
+    </thead>
+    <tbody id="schedule-body"></tbody>
+  </table>
+</div>
+
+<script>
+const defaultScheduleData = [
+  { week: "1", date: "Dec 2", time: "0800-1100",
+    skills: "Airway Adjuncts\nOxygen Setup\nOxygen delivery Systems\nZoll defib (Manuel/AED/Monitor)",
+    instructors: "Dr. Santiago\nDr. Santiago\nDr. Santiago\nDr. Santiago" },
+  { week: "2", date: "Dec 9", time: "0800-1100",
+    skills: "Leads Placement\nCrash Cart\nVenipuncture\nIV insertion",
+    instructors: "Dr. Santiago\nLT Healy\nPIVO team\nPIVO team" },
+  { week: "3", date: "Dec 16", time: "0800-1100",
+    skills: "Sterile Gloving\nFoley Insertion\nHeparin Infusion-Nurses Only",
+    instructors: "LT Brown\nLT Brown\nLCDR Holdsworth" },
+  { week: "4", date: "Dec 23", time: "0800-1100",
+    skills: "Alaris Pump Set up\nNGT insertion\nFeeding Pump",
+    instructors: "LT McGowan\nLCDR Sanchez\nLT Stucky" },
+  { week: "5", date: "Dec 30", time: "0800-1100",
+    skills: "Patient Assessment\nBreath Sounds Practice\nIPASS",
+    instructors: "Dr. Santiago\nLCDR Foster\nChampion" },
+  { week: "6", date: "Jan 13", time: "0800-1100",
+    skills: "Tracheostomy Care\nRRT Response/Mock",
+    instructors: "Respiratory Therapy\nLT Healy or RRT Nurse from ICU" },
+  { week: "7", date: "Jan 20", time: "0800-1100",
+    skills: "Blood Transfusion & Complications-Nurses Only\nMTP review-Nurses Only\nChest Tube management & troubleshooting-Nurses Only",
+    instructors: "LCDR Carinio\nLCDR Carinio\nDr. Santiago" },
+  { week: "8", date: "Jan 27", time: "0800-1100",
+    skills: "Zoll-SCV/Pacing\nPCEA/PCA\nIVP",
+    instructors: "Dr. Santiago\nLCDR Holdsworth\nLT Thompson" },
+  { week: "9", date: "Feb 3", time: "0800-1100",
+    skills: "Needle Decompression\nTourniquet Application\nSpinal Immobilization\nPelvic Binder",
+    instructors: "" },
+  { week: "10", date: "Feb 10", time: "0800-1100",
+    skills: "Surgical Cric\nETT Intubation\nIO insertion",
+    instructors: "" },
+  { week: "11", date: "Feb 17", time: "0800-1100",
+    skills: "Combat Meds Review\nExtremity Splinting\nCasualty Drags\nSTART System",
+    instructors: "" }
+];
+
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function createLinesHtml(count, placeholder, className, values = []) {
+  let html = '<div class="line-inputs">';
+  for (let i = 0; i < count; i++) {
+    const val = escapeHtml(values[i] || '');
+    html += `<div class="line-item"><span class="line-num">${i + 1}.</span><input type="text" class="text-line ${className}" placeholder="${placeholder}" value="${val}"></div>`;
+  }
+  return html + '</div>';
+}
+
+function createClass8Subtable(startNum, values = []) {
+  let rows = '';
+  for (let i = 0; i < 6; i++) {
+    const idx = startNum + i;
+    const itemObj = values[idx - 1] || { qty: '', item: '' };
+    rows += `<tr>
+      <td style="width:26%;"><input type="text" class="qty-input c8-qty" placeholder="#" value="${escapeHtml(itemObj.qty)}"></td>
+      <td style="width:74%;"><input type="text" class="c8-input c8-item" placeholder="${idx}." value="${escapeHtml(itemObj.item)}"></td>
+    </tr>`;
+  }
+  return `<table class="class8-subtable">
+    <thead><tr><th style="width:26%;">Qty</th><th style="width:74%;">Class 8</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function createRowElement(row) {
+  const tr = document.createElement('tr');
+  const locMain = row.locationMain ? 'checked' : '';
+  const locArrow = row.locationArrowhead ? 'checked' : '';
+
+  tr.innerHTML = `
+    <td class="col-week">
+      <input type="text" class="cell-input-center week-num" value="${escapeHtml(row.week)}" placeholder="Wk">
+      <button class="btn-danger no-print" onclick="removeRow(this)" title="Remove Week">&times;</button>
+    </td>
+    <td class="col-date">
+      <input type="text" class="cell-input-center date-input" value="${escapeHtml(row.date)}" placeholder="Date">
+    </td>
+    <td class="col-time">
+      <input type="text" class="cell-input-center time-input" value="${escapeHtml(row.time)}" placeholder="0800-1100">
+    </td>
+    <td class="col-skills">
+      <textarea class="cell-textarea skills-input" placeholder="Enter skills (1 per line)...">${escapeHtml(row.skills)}</textarea>
+    </td>
+    <td class="col-instructor">
+      <textarea class="cell-textarea instructor-input" placeholder="Enter instructors (1 per line)...">${escapeHtml(row.instructors)}</textarea>
+    </td>
+    <td class="col-staff">
+      ${createLinesHtml(4, 'Staff...', 'staff-line', row.staff || [])}
+    </td>
+    <td class="col-location">
+      <div class="location-checks">
+        <label><input type="checkbox" class="loc-main" ${locMain}> Main</label>
+        <label><input type="checkbox" class="loc-arrowhead" ${locArrow}> Arrowhead</label>
+      </div>
+    </td>
+    <td class="col-room">
+      ${createLinesHtml(8, 'Rm...', 'room-line', row.rooms || [])}
+    </td>
+    <td class="col-equipment">
+      ${createLinesHtml(8, 'Equip...', 'equip-line', row.equipment || [])}
+    </td>
+    <td class="col-class8">
+      <div class="class8-grid">
+        ${createClass8Subtable(1, row.class8 || [])}
+        ${createClass8Subtable(7, row.class8 || [])}
+      </div>
+    </td>
+  `;
+  return tr;
+}
+
+function renderSchedule(dataArray) {
+  const tbody = document.getElementById('schedule-body');
+  tbody.innerHTML = '';
+  dataArray.forEach(row => {
+    tbody.appendChild(createRowElement(row));
+  });
+}
+
+function addWeek() {
+  const tbody = document.getElementById('schedule-body');
+  const nextWeekNum = tbody.querySelectorAll('tr').length + 1;
+  const newRow = createRowElement({
+    week: String(nextWeekNum),
+    date: "TBD",
+    time: "0800-1100",
+    skills: "",
+    instructors: "",
+    staff: [],
+    locationMain: false,
+    locationArrowhead: false,
+    rooms: [],
+    equipment: [],
+    class8: []
+  });
+  tbody.appendChild(newRow);
+}
+
+function removeRow(btn) {
+  const tr = btn.closest('tr');
+  if (confirm('Remove this week from the schedule?')) {
+    tr.remove();
+  }
+}
+
+function collectCurrentData() {
+  const rows = document.querySelectorAll('#schedule-body tr');
+  const schedule = [];
+  rows.forEach(tr => {
+    const staff = Array.from(tr.querySelectorAll('.staff-line')).map(i => i.value);
+    const rooms = Array.from(tr.querySelectorAll('.room-line')).map(i => i.value);
+    const equipment = Array.from(tr.querySelectorAll('.equip-line')).map(i => i.value);
+    const qtys = Array.from(tr.querySelectorAll('.c8-qty')).map(i => i.value);
+    const items = Array.from(tr.querySelectorAll('.c8-item')).map(i => i.value);
+    const class8 = qtys.map((q, idx) => ({ qty: q, item: items[idx] || '' }));
+
+    schedule.push({
+      week: tr.querySelector('.week-num').value,
+      date: tr.querySelector('.date-input').value,
+      time: tr.querySelector('.time-input').value,
+      skills: tr.querySelector('.skills-input').value,
+      instructors: tr.querySelector('.instructor-input').value,
+      staff: staff,
+      locationMain: tr.querySelector('.loc-main').checked,
+      locationArrowhead: tr.querySelector('.loc-arrowhead').checked,
+      rooms: rooms,
+      equipment: equipment,
+      class8: class8
+    });
+  });
+  return {
+    metaHtml: document.querySelector('.meta-box').innerHTML,
+    schedule: schedule
+  };
+}
+
+function exportJSON() {
+  const data = collectCurrentData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '4E_Training_Schedule_Data.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (Array.isArray(parsed)) {
+        renderSchedule(parsed);
+      } else if (parsed && Array.isArray(parsed.schedule)) {
+        if (parsed.metaHtml) {
+          document.querySelector('.meta-box').innerHTML = parsed.metaHtml;
+        }
+        renderSchedule(parsed.schedule);
+      } else {
+        alert('Invalid JSON structure.');
+      }
+    } catch (err) {
+      alert('Error reading JSON file: ' + err.message);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// Initialize table on load
+renderSchedule(defaultScheduleData);
+</script>
+</body>
+</html>
